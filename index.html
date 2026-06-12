@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>معرض السيارات الفاخر والمتميز</title>
+<style>
+:root {
+  --eco: #00b4d8; 
+  --suv: #06d6a0; 
+  --lux: #ffb703; 
+  --sport: #e63946;
+  --bg: #09090b; 
+  --card: #141417;
+  --border: #27272a;
+  --text-muted: #a1a1aa;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: #f4f4f5;
+  overflow-x: hidden;
+}
+
+/* القائمة العلوية */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: rgba(9, 9, 11, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 4%;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 900;
+  background: linear-gradient(45deg, #e63946, #ffb703);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: 1px;
+}
+
+.cats {
+  display: flex;
+  gap: 12px;
+  list-style: none;
+}
+
+.cats a {
+  color: #d4d4d8;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.cats a:hover {
+  border-color: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+#adminBtn {
+  background: transparent;
+  color: #fff;
+  border: 1px solid var(--border);
+  padding: 8px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+#adminBtn:hover {
+  background: var(--sport);
+  border-color: var(--sport);
+  box-shadow: 0 0 15px rgba(230, 57, 70, 0.4);
+}
+
+/* الواجهة الرئيسية الترحيبية */
+.hero {
+  background: linear-gradient(rgba(9, 9, 11, 0.6), rgba(9, 9, 11, 0.9)), 
+              url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1600') center/cover no-repeat;
+  text-align: center;
+  padding: 160px 20px;
+}
+
+.hero h1 {
+  font-size: clamp(34px, 5vw, 60px);
+  font-weight: 800;
+  opacity: 0;
+  animation: fadeUp 1s ease forwards;
+  line-height: 1.3;
+}
+
+.hero h1 span {
+  color: var(--sport);
+  background: linear-gradient(45deg, var(--sport), var(--lux));
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.hero p {
+  margin-top: 18px;
+  color: var(--text-muted);
+  font-size: clamp(16px, 2vw, 20px);
+  opacity: 0;
+  animation: fadeUp 1s ease 0.3s forwards;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* العناوين والأقسام */
+.section-title {
+  text-align: center;
+  font-size: 32px;
+  margin: 70px 0 10px;
+  font-weight: 700;
+}
+
+.section-sub {
+  text-align: center;
+  color: var(--text-muted);
+  margin-bottom: 40px;
+  font-size: 15px;
+}
+
+.bar {
+  width: 50px;
+  height: 4px;
+  margin: 12px auto 0;
+  border-radius: 10px;
+}
+
+/* شبكة عرض السيارات */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 4% 80px;
+}
+
+.car {
+  background: var(--card);
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.6s ease, box-shadow 0.3s ease;
+}
+
+.car.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.car:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 30px rgba(0,0,0,0.7);
+  border-color: rgba(255,255,255,0.15);
+}
+
+.car img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.car:hover img {
+  transform: scale(1.05);
+}
+
+.info {
+  padding: 20px;
+}
+
+.info h3 {
+  font-size: 18px;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.badge {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 30px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.eco .badge { background: rgba(0, 180, 216, 0.15); color: var(--eco); }
+.suv .badge { background: rgba(6, 214, 160, 0.15); color: var(--suv); }
+.lux .badge { background: rgba(255, 183, 3, 0.15); color: var(--lux); }
+.sport .badge { background: rgba(230, 57, 70, 0.15); color: var(--sport); }
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.price {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.eco .price { color: var(--eco); } 
+.suv .price { color: var(--suv); } 
+.lux .price { color: var(--lux); } 
+.sport .price { color: var(--sport); }
+
+.editBtn {
+  display: none;
+  background: #27272a;
+  border: none;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.editBtn:hover { background: #3f3f46; }
+.admin .editBtn { display: inline-block; }
+
+/* النوافذ المنبثقة (Modals) */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  padding: 20px;
+}
+
+.overlay.active {
+  display: flex;
+}
+
+.modal {
+  background: #101012;
+  padding: 30px;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  border: 1px solid var(--border);
+  transform: scale(0.9);
+  transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.overlay.active .modal {
+  transform: scale(1);
+}
+
+.modal h3 {
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+.modal input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: #09090b;
+  color: #fff;
+  outline: none;
+  text-align: center;
+}
+
+.modal button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 12px;
+  background: var(--sport);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.modal .close {
+  background: #27272a;
+  margin-top: 8px;
+}
+
+/* نافذة تفاصيل السيارة الكبرى */
+.details-modal {
+  max-width: 700px;
+  width: 100%;
+  background: #141417;
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transform: scale(0.9);
+  transition: 0.3s ease;
+}
+
+.overlay.active .details-modal {
+  transform: scale(1);
+}
+
+.details-hero {
+  position: relative;
+  height: 280px;
+}
+
+.details-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.details-body {
+  padding: 30px;
+}
+
+.details-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.details-specs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin: 20px 0;
+  text-align: right;
+}
+
+.spec-item {
+  background: #1c1c21;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.02);
+}
+
+.spec-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.spec-value {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.details-desc {
+  color: #d4d4d8;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-top: 15px;
+  text-align: right;
+}
+
+.details-close-btn {
+  background: var(--sport);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  width: 100%;
+  margin-top: 20px;
+  transition: 0.3s;
+}
+
+/* التذييل */
+footer {
+  text-align: center;
+  padding: 40px;
+  background: #0c0c0e;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* التوافق مع الهواتف الذكية */
+@media(max-width: 768px) {
+  nav {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px 20px;
+  }
+  .cats {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .cats a {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+  #adminBtn {
+    width: 100%;
+  }
+  .details-specs {
+    grid-template-columns: 1fr;
+  }
+  .details-hero {
+    height: 200px;
+  }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">مـعـرض الـسـيـارات</div>
+  <ul class="cats">
+    <li><a href="#eco">اقتصادية</a></li>
+    <li><a href="#suv">SUV</a></li>
+    <li><a href="#lux">فاخرة</a></li>
+    <li><a href="#sport">رياضية</a></li>
+  </ul>
+  <button id="adminBtn" onclick="openLogin(event)">تسجيل دخول الأدمن</button>
+</nav>
+
+<div class="hero">
+  <h1>أفضل <span>السيارات الفاخرة</span> بانتظارك</h1>
+  <p>تشكيلة كاملة بأسعار محدثة ومواصفات حقيقية في السوق المغربي</p>
+</div>
+
+<h2 class="section-title" id="eco">سيارات <span style="color:var(--eco)">اقتصادية</span></h2>
+<p class="section-sub">خيارات عملية، موفرة للوقود ومثالية للمدينة</p>
+<div class="bar" style="background:var(--eco)"></div>
+<div class="grid">
+  
+  <div class="car eco" data-model="2023" data-engine="1.2 لتر" data-transmission="أوتوماتيك" data-fuel="بنزين" data-hp="84 حصان" data-desc="كيا بيكانتو هي السيارة المدنية الأفضل بلا منازع، تجمع بين الحجم الصغير الذكي والمقصورة المريحة، مع استهلاك وقود ممتاز واقتصادية جداً في الصيانة.">
+    <img src="https://images.unsplash.com/photo-1619767886558-efdc259cde1a?w=600">
+    <div class="info">
+      <span class="badge">اقتصادية</span>
+      <h3>كيا بيكانتو 2023</h3>
+      <div class="price-row">
+        <span class="price" data-price="140000">140,000 د.م</span>
+        <button class="editBtn" onclick="editPrice(this, event)">✎ تعديل</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="car eco" data-model="2022" data-engine="1.6 لتر" data-transmission="أوتوماتيك" data-fuel="بنزين" data-hp="123 حصان" data-desc="هيونداي أكسنت توفر توازناً رائعاً بين المساحة الداخلية المريحة والاعتمادية العالية، مناسبة جداً للعائلات الصغيرة والرحلات اليومية بفضل كفاءتها.">
+    <img src="https://images.unsplash.com/photo-1616422285623-13ff0162193c?w=600">
+    <div class="info">
+      <span class="badge">اقتصادية</span>
+      <h3>هيونداي أكسنت 2022</h3>
+      <div class="price-row">
+        <span class="price" data-price="175000">175,000 د.م</span>
+        <button class="editBtn" onclick="editPrice(this, event)">✎ تعديل</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="car eco" data-model="2021" data-engine="1.4 لتر" data-transmission="يدوي (Manuel)" data-fuel="بنزين" data-hp="98 حصان" data-desc="شيفروليه سبارك تتميز برشاقتها الفائقة داخل المدن المزدحمة، وسهولة ركنها، بالإضافة إلى تقديمها أساسيات القيادة بأقل تكلفة تشغيل ممكنة.">
+    <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?w=600">
+    <div class="info">
+      <span class="badge">اقتصادية</span>
+      <h3>شيفروليه سبارك 2021</h3>
+      <div class="price-row">
+        <span class="price" data-price="115000">115,000 د.م</span>
+        <button class="editBtn" onclick="editPrice(this, event)">✎ تعديل</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="car eco" data-model="2022" data-engine="1.5 dCi" data-transmission="يدوي (Manuel)" data-fuel="ديزل (Mazole)" data-hp="95 حصان" data-desc="رينو لوجان ديزل الشهيرة باقتصاديتها الأسطورية في استهلاك الوقود بالمغرب، سيارة واسعة، عملية، وقطع غيارها متوفرة في كل مكان.">
+    <img src="https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?w=600">
+    <div class="info">
+      <span class="badge">اقتصادية</span>
+      <h3>رينو لوجان 2022</h3>
+      <div class="price-row">
+        <span class="price" data-price="135000">135,000 د.م</span>
+        <button class="editBtn" onclick="editPrice(this, event)">✎ تعديل</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<h2 class="section-title" id="suv">سيارات <span style="color:var(--suv)">SUV</span></h2>
+<p class="section-sub">قوة، ارتفاع عن الأرض، ورحابة تتسع لجميع أفراد العائلة</p>
+<div class="bar" style="background:var(--suv)"></div>
+<div class="grid">
+
+  <div class="car suv" data-model="2023" data-engine="1.6 CRDi" data-transmission="أوتوماتيك" data-fuel="ديزل (Mazole)" data-hp="136 حصان" data-desc="هيونداي توسان الجديدة كلياً بتصميمها المستقبلي الجريء، تمنحك قيادة ممتعة، مقصورة رقمية متطورة، وأداء قوي يناسب جميع الطرقات المغربية.">
+    <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=600">
+    <div class="info">
+      <span class="badge">SUV</span>
+      <h3>هيونداي توسان 2023</h3>
+      <div class="price-row">
+        <span class="price" data-price="330000">330,000 د.م</span>
+        <button class="editBtn" onclick="editPrice(this, event)">✎ تعديل</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="car suv" data-model="2022" data-engine="2.5 لتر" data-transmission="أوتوماتيك" data-fuel="هجين (Hybrid)" data-hp="219 حصان" data-desc="تويوتا راف فور اليابانية الرائدة في فئة الهايبرد، تجمع بين القوة الجبارة ونظام الدفع الرباعي الذكي واستهلاك وقود يضاهي السيارات الصغيرة.">
+    <img src="https://images.unsplash.com/photo-1621007947382-cc34aa864ee6?w=600">
+    <div class="info">
+      <span class="badge">SUV</span>
+      <h3>تويوتا راف فور 2022</h3>
+      <div class="price-row">
+        <span class="price" data-price="390000">390,000 د.م</span>
+        <button class="editBtn" onclick="editPrice(this, event)">✎ تعديل</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="car suv" data-model="2023" data-engine="1.6 لتر تيربو" data-transmission="أوتوماتيك" data-fuel="ديزل (Mazole)" data-hp="136 cyan" data-desc="كيا سبورتاج تتميز بهويتها الرياضية الفريدة، تقدم مساحات تخزين عملاقة وثبات ممتاز على السرعات العالية مع أنظمة أمان وسلامة رائدة.">
+    <img src="https://images.unsplash.com/photo-1632245889029-e406faaa34cd?w=600">
+    <div class="info">
+      <span class="badge">SUV</span>
+      <h3>كيا سبورتاج 2023</h3>
+      <div class="price-row">
+        <span class="price" data-price="325000">325,000 د.م</span>
+        <button class="editBtn" onclick="editPrice(this, event)">✎ تعديل</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="car suv" data-model="2021" data-engine="1.6 dCi" data-transmission="أوتوماتيك" data-fuel="ديزل (Mazole)" data-hp="130 حصان" data-desc="نيسان إكستريل هي السيارة العائلية المثالية بـ 7 مقاعد، توفر راحة فائقة في السفر الطويل ونظام تعليق ناعم يمتص صدمات الطريق بامتياز.">
+    <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=600">
+    <div class="info">
+      <span class="badge">SUV</span>
+      <h3>نيسان إكستريل 2021</h3>
+      <div class="price-row">
+        <span class="price" data-price="260000">260,000 د.م</span>
+        <button class="editBtn" onclick="editPrice(this, event)">✎ تعديل</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<h2 class="section-title" id="lux">سيارات <span style="color:var(--lux)">فاخرة</span></h2>
+<p class="section-sub">الرفاهية المطلقة، أرقى أنواع الخامات، وأحدث التقنيات العالمية</p>
+<div class="bar" style="background:var(--lux)"></div>
+<div class="grid">
+
+  <div class="car lux" data-model="2023" data-engine="2.0 لتر تيربو" data-transmission="أوتوماتيك (9 سرعات)" data-fuel="بنزين / هجين خفيف" data-hp="197 حصان" data-desc="مرسيدس E200 هي رمز الفخامة والوقار، تأتي بمقصورة يكسوها الجلد الطبيعي الفاخر، مع إضاءة محيطية ساحرة وعزل صوتي خارجي شبه كامل لمظهر ملكي.">
+    <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600">
+    <div class="info">
+      <span class="badge">فاخرة</span>
+      <h3>مرسيدس E200 2023</h3>
+      <div class="price-row">
+        <span class="price" data-price="690000">690,000 د.م</span>
+        <button class="editBtn" onclick="editPrice(this, event)">✎ تعديل</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="car lux" data-model="2022" data-engine="2.0 لتر TwinPower" data-transmission="أوتوماتيك" data-fuel="ديزل (Mazole)" data-hp="190 حصان" data-desc="بي إم دبليو الفئة الخامسة تجمع بصورة مذهلة بين الفخامة والروح الرياضية الألمانية. متعة قيادة حقيقية مع ثبات مرعب على المنعطفات وتكنولوجيا متقدمة.">
+    <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600">
+    <div class="info">
+      <span class="badge">فاخرة</span>
+      <h3>BMW 5 Series 2022</h3>
+      <div class="price-row">
+        <span class="price" data-price="640000">640,000 د.م</span>
+        <button class="editBtn" onclick="editPrice(this, event)">✎ تعديل</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="car lux" data-model="2023" data-engine="2.0 لتر تيربو" data-transmission="S-Tronic أوتوماتيك" data-fuel="بنزين" data-hp="204 حصان" data-desc="أودي A6 تقدم تحفة هندسية من حيث التصميم الرقمي، شاشات مزدوجة باللمس، ونظام دفع متطور يمنحك هدوءاً وراحة لا مثيل لهما أثناء القيادة.">
+    <img src="https://images.unsplash.com/photo-1606896328312-74e1758e7981?w=600">
+    <div class="info">
+      <span class="badge">فاخرة</span>
+      <h3>أودي A6 2023</h3>
+      <div class="price-row">
+        <span class="price" data-price="660000">660,000 د.م</span>
+        <button class="editBtn" onclick="editPrice(this, event)">✎ تعديل</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="car lux" data-model="2022" data-engine="2.5 لتر هايبرد" data-transmission="CVT" data-fuel="هجين (Hybrid)" data-hp="215 حصان" data-desc="لكزس ES اليابانية الفاخرة، تقدم أعلى مستويات الاعتمادية عالمياً وقلة الأعطال، صالون داخلي فسيح ومريح جداً، ومعدل هدوء داخلي استثنائي.">
+    <img src="https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=600">
+    <div class="info">
+      <span class="badge">فاخرة</span>
+      <h3>لكزس ES 2022</h3>
+      <div class="price-row">
+        <span class="price" data-price="590000">590,000 د.م</span>
+        <button class="editBtn" onclick="editPrice(this, event)">✎ تعديل</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<h2 class="section-title" id="sport">سيارات <span style="color:var(--sport)">رياضية</span></h2>
+<p class="section-sub">أداء استثنائي، تسارع خاطف للأنفاس، وصوت محركات نقي</p>
+<div class="bar" style="background:var(--sport)"></div>
+<div class="grid">
+
+  <div class="car sport" data-model="2022" data-engine="2.3 لتر EcoBoost" data-transmission="أوتوماتيك (10 سرعات)" data-fuel="بنزين" data-hp="310 حصان" data-desc="فورد موستانج الأسطورية الأمريكية، تصميم هجومي كلاسيكي مع قوة تسارع مذهلة تجعلها تلفت كافة الأنظار على الطريق مع صوت عادم رياضي مميز.">
+    <img src="https://images.unsplash.com/photo-1611245558582-0c9f80164609?w=600">
+    <div class="info">
+      <span class="badge">رياضية</span>
+      <h3>فورد موستانج 2022</h3>
+      <div class="price-row">
+        <span class="price" data-price="520000">520,000 د.م</span>
+        <button class="editBtn" onclick="editPrice(this, event)">✎ تعديل</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="car sport" data-model="2021" data-engine="3.6 لتر V6" data-transmission="أوتوماتيك" data-fuel="بنزين" data-hp="335 حصان" data-desc="شيفروليه كامارو العضلية، تقدم أداءً رياضياً خالصاً وتماسكاً ممتازاً على الحلبات والطرق السريعة مع مقاعد رياضية حاضنة وثبات متطور.">
+    <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600">
+    <div class="info">
+      <span class="badge">رياضية</span>
+      <h3>شيفروليه كامارو 2021</h3>
+      <div class="price-row">
+        <span class="price" data-price="490000">490,000 د.م</span>
+        <button class="editBtn" onclick="editPrice(this, event)">✎ تعديل</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="car sport" data-model="2023" data-engine="2.0 لتر تيربو بوكسر" data-transmission="PDK مزدوج القابض" data-fuel="بنزين" data-hp="300 حصان" data-desc="بورش 718 كايمان هي الهندسة الألمانية في أبهى صورها، محرك وسطي يمنح السيارة توازناً مثالياً في المنعطفات وتجربة قيادة تسابقية حقيقية.">
+    <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600">
+    <div class="info">
+      <span class="badge">رياضية</span>
+      <h3>بورش 718 كايمان 2023</h3>
+      <div class="price-row">
+        <span class="price" data-price="850000">850,000 د.م</span>
+        <button class="editBtn" onclick="editPrice(this, event)">✎ تعديل</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="car sport" data-model="2022" data-engine="3.0 لتر تيربو طولي" data-transmission="أوتوماتيك ZF" data-fuel="بنزين" data-hp="382 حصان" data-desc="تويوتا سوبرا المطورة بالتعاون مع الخبراء، سيارة يابانية خارقة تمتاز بتسارع خارق من 0 لـ 100 كم/س في أقل من 4 ثوانٍ مع استجابة فورية للمحرك.">
+    <img src="https://images.unsplash.com/photo-1627454820516-dc767bcb4d3e?w=600">
+    <div class="info">
+      <span class="badge">رياضية</span>
+      <h3>تويوتا سوبرا 2022</h3>
+      <div class="price-row">
+        <span class="price" data-price="620000">620,000 د.م</span>
+        <button class="editBtn" onclick="editPrice(this, event)">✎ تعديل</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>جميع الحقوق محفوظة © 2026 - معرض السيارات الفاخر بالمغرب</footer>
+
+<div class="overlay" id="loginOverlay" onclick="closeLogin()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <h3>تسجيل دخول الأدمن</h3>
+    <input type="text" id="userInput" placeholder="اسم المستخدم">
+    <input type="password" id="passInput" placeholder="كلمة المرور">
+    <div class="msg" id="loginMsg"></div>
+    <button onclick="checkLogin()">دخول</button>
+    <button class="close" onclick="closeLogin()">إغلاق</button>
+  </div>
+</div>
+
+<div class="overlay" id="detailsOverlay" onclick="closeDetails()">
+  <div class="details-modal" onclick="event.stopPropagation()">
+    <div class="details-hero">
+      <img id="detImg" src="" alt="صورة السيارة">
+    </div>
+    <div class="details-body">
+      <div class="details-title-row">
+        <h2 id="detTitle">اسم السيارة</h2>
+        <h2 id="detPrice" style="color: var(--lux);">0 د.م</h2>
+      </div>
+      
+      <div class="details-specs">
+        <div class="spec-item"><div class="spec-label">الموديل (السنة)</div><div class="spec-value" id="detYear">-</div></div>
+        <div class="spec-item"><div class="spec-label">سعة المحرك</div><div class="spec-value" id="detEngine">-</div></div>
+        <div class="spec-item"><div class="spec-label">نوع ناقل الحركة</div><div class="spec-value" id="detTrans">-</div></div>
+        <div class="spec-item"><div class="spec-label">نوع الوقود</div><div class="spec-value" id="detFuel">-</div></div>
+        <div class="spec-item" style="grid-column: span 2;"><div class="spec-label">القوة الحصانية</div><div class="spec-value" id="detHp">-</div></div>
+      </div>
+
+      <div class="details-desc" id="detDesc">
+        هنا يظهر الوصف الكامل والمزايا الخاصة بالسيارة...
+      </div>
+
+      <button class="details-close-btn" onclick="closeDetails()">إغلاق ومتابعة التصفح</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const ADMIN_USER = "admin";
+const ADMIN_PASS = "admin123";
+
+// فتح وإغلاق نافذة الأدمن
+function openLogin(e){
+  e.stopPropagation();
+  if(localStorage.getItem('isAdmin')==='true'){ logoutAdmin(); return; }
+  document.getElementById('loginOverlay').classList.add('active');
+}
+function closeLogin(){ document.getElementById('loginOverlay').classList.remove('active'); }
+
+// التحقق من بيانات الأدمن
+function checkLogin(){
+  const u=document.getElementById('userInput').value;
+  const p=document.getElementById('passInput').value;
+  if(u===ADMIN_USER && p===ADMIN_PASS){
+    localStorage.setItem('isAdmin','true');
+    document.body.classList.add('admin');
+    document.getElementById('adminBtn').textContent='تسجيل خروج الأدمن';
+    closeLogin();
+  } else {
+    document.getElementById('loginMsg').textContent='بيانات الدخول خاطئة';
+    document.getElementById('loginMsg').style.color='var(--sport)';
+  }
+}
+
+function logoutAdmin(){
+  localStorage.removeItem('isAdmin');
+  document.body.classList.remove('admin');
+  document.getElementById('adminBtn').textContent='تسجيل دخول الأدمن';
+}
+
+// تعديل السعر من طرف الأدمن وحفظه في المتصفح
+function editPrice(btn, event){
+  event.stopPropagation(); // منع فتح نافذة التفاصيل عند الضغط على زر التعديل
+  const span=btn.previousElementSibling;
+  const current=span.dataset.price;
+  const newPrice=prompt("أدخل السعر الجديد بالدرهم (أرقام فقط):", current);
+  if(newPrice && !isNaN(newPrice)){
+    span.dataset.price=newPrice;
+    span.textContent=Number(newPrice).toLocaleString('en-US')+" د.م";
+    localStorage.setItem('price_'+span.closest('.car').querySelector('h3').textContent, newPrice);
+  }
+}
+
+// فتح نافذة تفاصيل ومزايا السيارة
+function openDetails(carCard) {
+  const title = carCard.querySelector('h3').textContent;
+  const imgStr = carCard.querySelector('img').src;
+  const priceStr = carCard.querySelector('.price').textContent;
+  
+  // جلب البيانات المخصصة من الـ attributes
+  const year = carCard.dataset.model;
+  const engine = carCard.dataset.engine;
+  const trans = carCard.dataset.transmission;
+  const fuel = carCard.dataset.fuel;
+  const hp = carCard.dataset.hp;
+  const desc = carCard.dataset.desc;
+
+  // حقن البيانات داخل المودال
+  document.getElementById('detTitle').textContent = title;
+  document.getElementById('detImg').src = imgStr;
+  document.getElementById('detPrice').textContent = priceStr;
+  document.getElementById('detYear').textContent = year;
+  document.getElementById('detEngine').textContent = engine;
+  document.getElementById('detTrans').textContent = trans;
+  document.getElementById('detFuel').textContent = fuel;
+  document.getElementById('detHp').textContent = hp;
+  document.getElementById('detDesc').textContent = desc;
+
+  document.getElementById('detailsOverlay').classList.add('active');
+}
+
+function closeDetails() {
+  document.getElementById('detailsOverlay').classList.remove('active');
+}
+
+// عند تحميل الصفحة
+window.onload=function(){
+  // تحميل الأسعار المعدلة مسبقاً إن وجدت
+  document.querySelectorAll('.price').forEach(span=>{
+    const name=span.closest('.car').querySelector('h3').textContent;
+    const saved=localStorage.getItem('price_'+name);
+    if(saved){ span.dataset.price=saved; span.textContent=Number(saved).toLocaleString('en-US')+" د.م"; }
+  });
+  
+  // التحقق من حالة الدخول للأدمن
+  if(localStorage.getItem('isAdmin')==='true'){
+    document.body.classList.add('admin');
+    document.getElementById('adminBtn').textContent='تسجيل خروج الأدمن';
+  }
+
+  // تفعيل حدث الضغط على بطاقة السيارة لفتح التفاصيل
+  document.querySelectorAll('.car').forEach(car => {
+    car.addEventListener('click', function() {
+      openDetails(this);
+    });
+  });
+
+  // أنيميشن ظهور كروت السيارات بشكل انسيابي عند السكرول
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('show'); });
+  },{threshold:0.1});
+  document.querySelectorAll('.car').forEach(c=>obs.observe(c));
+}
+</script>
+
+</body>
+</html>
