@@ -1,0 +1,153 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #0a0a0a;
+    color: #ffffff;
+    direction: rtl;
+}
+
+/* NAV */
+nav {
+    background: #111;
+    padding: 15px 30px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 2px solid #6a0dad;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #a855f7;
+}
+
+/* HERO */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(135deg, #0a0a0a, #1a003a);
+    padding: 40px;
+}
+
+.hero h2 {
+    font-size: 60px;
+    color: #a855f7;
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px #a855f7;
+}
+
+.hero p {
+    font-size: 22px;
+    color: #ccc;
+    margin-bottom: 30px;
+}
+
+.btn {
+    background: #6a0dad;
+    color: white;
+    padding: 12px 35px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 18px;
+    transition: background 0.3s;
+}
+
+.btn:hover {
+    background: #a855f7;
+}
+
+/* ABOUT */
+.about {
+    padding: 80px 40px;
+    text-align: center;
+    background: #111;
+}
+
+.about h2 {
+    font-size: 40px;
+    color: #a855f7;
+    margin-bottom: 20px;
+}
+
+.about p {
+    font-size: 18px;
+    color: #bbb;
+    max-width: 700px;
+    margin: auto;
+    line-height: 1.8;
+}
+
+/* CHARACTERS */
+.characters {
+    padding: 80px 40px;
+    text-align: center;
+    background: #0a0a0a;
+}
+
+.characters h2 {
+    font-size: 40px;
+    color: #a855f7;
+    margin-bottom: 40px;
+}
+
+.cards {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: #1a1a2e;
+    border: 1px solid #6a0dad;
+    border-radius: 12px;
+    padding: 30px;
+    width: 220px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 20px #a855f7;
+}
+
+.card h3 {
+    color: #a855f7;
+    margin-bottom: 10px;
+}
+
+.card p {
+    color: #bbb;
+    font-size: 14px;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #111;
+    color: #555;
+    border-top: 1px solid #6a0dad;
+}
